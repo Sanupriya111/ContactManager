@@ -1,25 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
-
+import { useState } from "react";
+import Addcontact from './components/add/Addcontact';
+import Viewcontact from './components/view/Viewcontact';
+import{useEffect} from "react"
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  
+  const [contacts,setContacts]=useState([])
+  function getData(data)
+  {
+console.log("data : ",data);
+setContacts([...contacts,{...data}])
+ // console.log("outsisde"+ JSON.stringify(filtdata));
+  
 }
-
-export default App;
+const removeId=(item)=>{
+    const filtdata=contacts.filter((check,i,rep)=>{
+   
+  return (i !==item)
+   });
+   setContacts(filtdata)
+  console.log( "App data:",contacts)
+    }
+    useEffect(()=>{
+   localStorage.setItem("contactslocal",JSON.stringify(contacts))
+  },[contacts]);
+    return ( 
+        <div class="container">
+        <div class="row">
+      <Addcontact getData={getData}/></div>
+      <div class="row"><br/><br/> <Viewcontact list={contacts} remove={removeId}/></div>
+          </div>
+        );
+      }  
